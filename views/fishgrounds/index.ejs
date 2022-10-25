@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All good place for fishing</title>
+</head>
+<body>
+
+    <h1>Avaliable Places <h1>
+        <div>
+            <a href="/fishground/new">Add new spots</a>
+        </div>
+        <ul>
+            <% for (let  i of titleOfIndex) {%>
+            <li> <a href="/fishground/<%= i._id %>"><%= i.title %></a></li>
+            <% } %> 
+        </ul>
+</body>
+</html>
