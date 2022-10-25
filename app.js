@@ -64,7 +64,7 @@ app.get('/fishground/:id', async (req, res)=> {
 
 app.get('/fishground/:id/edit', async (req, res)=> {
     const fishground = await FishGround.findById(req.params.id)
-    res.render('fishgrounds/show', {fishground})
+    res.render('fishgrounds/edit', {fishground})
 })
 
 // app.get('*', (req, res)=>{
