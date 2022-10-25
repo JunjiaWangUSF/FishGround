@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 
 const FishGround = require('./models/FishGround')
-
+const Override = require('method-override')
 mongoose.connect('mongodb://localhost:27017/fish-ground', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -26,6 +26,7 @@ const path = require('path');
 app.set('view engine', 'ejs'); //set dynamic html scripts 
 app.set('views', path.join(__dirname, 'views')) // make view 
 app.use(express.urlencoded({extended:true}))
+app.use(Override('_method'))
 
 
 app.get('/', (req, res)=>{
@@ -67,6 +68,9 @@ app.get('/fishground/:id/edit', async (req, res)=> {
     res.render('fishgrounds/edit', {fishground})
 })
 
+app.put('/fishground/:id', async (req, res)=> { //post request 
+    res.send("It works fine")
+})
 // app.get('*', (req, res)=>{
 //     res.send('Not Finished yet.') //retun html file of home 
 
