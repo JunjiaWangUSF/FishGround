@@ -1,4 +1,4 @@
-module.exports.descriptors = [
+module.exports.descriptors = [ //defining what a module makes available for other modules to use
     'Forest',
     'Ancient',
     'Petrified',
