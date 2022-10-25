@@ -69,7 +69,19 @@ app.get('/fishground/:id/edit', async (req, res)=> {
 })
 
 app.put('/fishground/:id', async (req, res)=> { //post request 
-    res.send("It works fine")
+    //res.send("It works fine")
+    const {id} = req.params;
+    const fishground = await FishGround.findByIdAndUpdate(id, {...req.body.fishground});
+    res.redirect(`/fishground/${fishground._id}`)
+
+})
+
+app.delete('/fishground/:id', async (req, res)=> { //post request 
+    //res.send("It works fine")
+    const {id} = req.params;
+    const fishground = await FishGround.findByIdAndDelete(id);
+    res.redirect(`/fishground`)
+
 })
 // app.get('*', (req, res)=>{
 //     res.send('Not Finished yet.') //retun html file of home 

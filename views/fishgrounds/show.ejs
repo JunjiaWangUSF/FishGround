@@ -9,6 +9,11 @@
     
     <h1><%= fishground.title %></h1>
     <h2><%= fishground.location %></h2>
+    <p>
+        <form action="/fishground/<%=fishground._id %>?_method=DELETE" method = "POST">
+        <button>DELETE</button>
+        </form>
+    </p>
     <footer>
         <a href="/fishground">Back to all avaliable spots</a>
         <a href="/fishground/<%=fishground._id  %>/edit">Edit locations</a>
