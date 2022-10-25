@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All good place for fishing</title>
-</head>
-<body>
+<% layout('layouts/viewtemplates') %> 
 
     <h1>Avaliable Places <h1>
         <div>
@@ -16,5 +9,3 @@
             <li> <a href="/fishground/<%= i._id %>"><%= i.title %></a></li>
             <% } %> 
         </ul>
-</body>
-</html>

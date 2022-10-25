@@ -2,9 +2,16 @@ const {Console} = require("console"); //get modules
 const { captureRejectionSymbol } = require("events");
 const express = require("express");
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const ejsMate = require('ejs-mate');  //ejs-mate pakcage
+
+// app.use(morgan('common'))
+// app.use((req, res, next) =>{
+//     console.log("MIDDLEWARE to handle expections")
+// })
 
 const FishGround = require('./models/FishGround')
-const Override = require('method-override')
+const Override = require('method-override') //Overide-let moogse to delete and update
 mongoose.connect('mongodb://localhost:27017/fish-ground', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -22,8 +29,10 @@ db.once("open", () => {
 
 const app  = express();
 const path = require('path');
+app.engine('ejs', ejsMate) //instead of use ejs, use ejsmate as view engine to style my ejs files.
 
 app.set('view engine', 'ejs'); //set dynamic html scripts 
+
 app.set('views', path.join(__dirname, 'views')) // make view 
 app.use(express.urlencoded({extended:true}))
 app.use(Override('_method'))

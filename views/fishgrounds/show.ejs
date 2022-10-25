@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Me</title>
-</head>
-<body>
-    
+<% layout('layouts/viewtemplates') %> 
     <h1><%= fishground.title %></h1>
     <h2><%= fishground.location %></h2>
     <p>
@@ -18,5 +10,3 @@
         <a href="/fishground">Back to all avaliable spots</a>
         <a href="/fishground/<%=fishground._id  %>/edit">Edit locations</a>
     </footer>
-</body>
-</html>

@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Location Info</title>
-</head>
-<body>
+<% layout('layouts/viewtemplates') %> 
     <h1>Edit fishground locations</h1>
     <form action="/fishground/<%= fishground._id %>?_method=PUT" method="POST">
         <div>
@@ -21,5 +14,3 @@
 
     </form>
     <a href="/fishground/<% fishground._id %> ">Back to previous pages</a>
-</body>
-</html>
