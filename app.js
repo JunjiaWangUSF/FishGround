@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const ejsMate = require("ejs-mate"); //ejs-mate pakcage
-
+const Review = require("./models/review");
 // app.use(morgan('common'))
 // app.use((req, res, next) =>{
 //     console.log("MIDDLEWARE to handle expections")
@@ -71,9 +71,13 @@ app.post("/fishground", async (req, res) => {
   await fishground.save();
   res.redirect(`/fishground/${fishground._id}`);
 });
+
 //21 22 27 33 36
 app.get("/fishground/:id", async (req, res) => {
-  const fishground = await FishGround.findById(req.params.id);
+  const fishground = await FishGround.findById(req.params.id).populate(
+    "reviews"
+  );
+  console.log(fishground);
   res.render("fishgrounds/show", { fishground });
 });
 
@@ -98,6 +102,15 @@ app.delete("/fishground/:id", async (req, res) => {
   const { id } = req.params;
   const fishground = await FishGround.findByIdAndDelete(id);
   res.redirect(`/fishground`);
+});
+
+app.post("/fishground/:id/reviews", async (req, res) => {
+  const fishground = await FishGround.findById(req.params.id);
+  const review = new Review(req.body.review);
+  await review.save();
+  await fishground.save();
+  res.redirect(`/fishground/${fishground._id}`);
+  //res.send("hi");
 });
 // app.get('*', (req, res)=>{
 //     res.send('Not Finished yet.') //retun html file of home
