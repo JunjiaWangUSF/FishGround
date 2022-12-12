@@ -107,6 +107,7 @@ app.delete("/fishground/:id", async (req, res) => {
 app.post("/fishground/:id/reviews", async (req, res) => {
   const fishground = await FishGround.findById(req.params.id);
   const review = new Review(req.body.review);
+  fishground.reviews.push(review);
   await review.save();
   await fishground.save();
   res.redirect(`/fishground/${fishground._id}`);
