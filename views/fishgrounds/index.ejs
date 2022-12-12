@@ -1,11 +1,15 @@
-<% layout('layouts/viewtemplates') %> 
+<% layout('layouts/viewtemplates') %>
 
-    <h1>Avaliable Places <h1>
-        <div>
-            <a href="/fishground/new">Add new spots</a>
-        </div>
-        <ul>
-            <% for (let  i of titleOfIndex) {%>
-            <li> <a href="/fishground/<%= i._id %>"><%= i.title %></a></li>
-            <% } %> 
-        </ul>
+<h1>
+  Avaliable Places
+  <h1>
+    <div>
+      <a href="/fishground/new">Add new spots</a>
+    </div>
+
+    <% for (let i of titleOfIndex) {%>
+    <div class="col-md-4"></div>
+    <% } %>
+    <li><a href="/fishground/<%= i._id %>"><%= i.title %></a></li>
+  </h1>
+</h1>
