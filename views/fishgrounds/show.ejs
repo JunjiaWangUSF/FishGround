@@ -1,22 +1,40 @@
-<% layout('layouts/viewtemplates') %> 
-    <h1><%= fishground.title %></h1>
-    <h2><%= fishground.location %></h2>
-    <% if (fishground.image == null) %>
-    <% { %>
-        <img src='https://source.unsplash.com/collection/2060184' alt="Random">
-    <% } %>
-   
-    <!-- <% if (fishground.image != null) %>
-    <% { %>
-        <img src="<%=fishground.image%> " alt="Random Pics from unsplash">
-    <% } %> -->
-    <p><%=fishground.description%> </p>
-    <p>
-        <form action="/fishground/<%=fishground._id %>?_method=DELETE" method = "POST">
-        <button>DELETE</button>
+<% layout('layouts/viewtemplates') %>
+
+<div class="row">
+  <div class="col-5 offset-3">
+    <div class="card mb-3">
+      <img
+        class="card-img-top"
+        src="<%=fishground.image%>"
+        alt="Card image cap"
+      />
+      <div class="card-body">
+        <h5 class="card-title"><%= fishground.title %></h5>
+        <p class="card-text"><%=fishground.description%></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%= fishground.location %></li>
+      </ul>
+      <div class="card-body">
+        <a
+          class="card-link btn btn-primary"
+          href="/fishground/<%=fishground._id  %>/edit"
+          >Edit locations</a
+        >
+
+        <form
+          class="d-inline"
+          action="/fishground/<%=fishground._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="card-link btn btn-primary">DELETE</button>
         </form>
-    </p>
-    <footer>
+      </div>
+      <div class="card-footer text-muted">
         <a href="/fishground">Back to all avaliable spots</a>
-        <a href="/fishground/<%=fishground._id  %>/edit">Edit locations</a>
-    </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer></footer>

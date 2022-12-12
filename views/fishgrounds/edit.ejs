@@ -1,35 +1,57 @@
 <% layout('layouts/viewtemplates') %>
 <h1>Edit fishground locations</h1>
-<form action="/fishground/<%= fishground._id %>?_method=PUT" method="POST">
-  <div>
-    <label for="title"> Title </label>
-    <input
-      type="text"
-      id="title"
-      name="fishground[title]"
-      value="<%= fishground.title %> "
-    />
-  </div>
 
-  <div>
-    <label for="location"> Location </label>
-    <input
-      type="text"
-      id="location"
-      name="fishground[location]"
-      value="<%= fishground.location %>"
-    />
-  </div>
+<div class="row">
+  <h1 class="text-center">Edit Your Post</h1>
+  <div class="col-6 offset-3">
+    <form action="/fishground/<%= fishground._id %>?_method=PUT" method="POST">
+      <div class="mb-3">
+        <label class="from-label" for="title"> Title </label>
+        <input
+          class="form-control"
+          type="text"
+          id="title"
+          name="fishground[title]"
+          value="<%= fishground.title %>"
+        />
+      </div>
 
-  <div>
-    <label for="description"> Description </label>
-    <input
-      type="text"
-      id="description"
-      name="fishground[description]"
-      value="<%= fishground.description %>"
-    />
+      <div class="mb-3">
+        <label class="from-label" for="location"> Location </label>
+        <input
+          class="form-control"
+          type="text"
+          id="location"
+          name="fishground[location]"
+          value="<%= fishground.location %>"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="from-label" for="image"> Image Url </label>
+        <input
+          class="form-control"
+          type="text"
+          id="image"
+          name="fishground[image]"
+          value="<%= fishground.image %>"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="from-label" for="description"> description </label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="fishground[description]"
+        >
+<%= fishground.description %></textarea
+        >
+      </div>
+      <button class="btn-primary">Submit</button>
+    </form>
+
+    <a href="/fishground/<% fishground._id %> ">Back to previous pages</a>
   </div>
-  <button>Update Location</button>
-</form>
-<a href="/fishground/<% fishground._id %> ">Back to previous pages</a>
+</div>
