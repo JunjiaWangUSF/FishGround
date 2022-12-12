@@ -18,7 +18,7 @@ const seedDB = async () => {
   //const fish = new FishGround({title: 'yellow fish'});
   //console.log(fish);
   //await fish.save();
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 50; i++) {
     const num = getRandom(0, 1000);
     //console.log(dummyCities);
     const price = Math.floor(Math.random() * 50) + 10;
@@ -26,6 +26,8 @@ const seedDB = async () => {
       location: `${dummyCities[num].city}` + ", " + `${dummyCities[num].state}`,
       title: `${descriptors[getRandom(0, 10)]}`,
       image: "https://source.unsplash.com/collection/2060184",
+      description:
+        "Someone leves their comments there. Current do not have any data",
       //price
       //places : `${places[getRandom(0,10)]}`
     });
