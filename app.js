@@ -11,11 +11,15 @@ const flash = require("connect-flash");
 // app.use((req, res, next) =>{
 //     console.log("MIDDLEWARE to handle expections")
 // })
+const passport = require("passport");
+const local = require("passport-local");
 
 const fishgrounds = require("./routes/fishground");
 const reviews = require("./routes/reviews");
 const FishGround = require("./models/FishGround");
 const Override = require("method-override"); //Overide-let moogse to delete and update
+const User = require("./models/user");
+const userRoutes = require("./routes/users");
 mongoose
   .connect("mongodb://localhost:27017/fish-ground", {
     useNewUrlParser: true,
@@ -41,6 +45,9 @@ app.set("views", path.join(__dirname, "views")); // make view
 app.use(express.urlencoded({ extended: true }));
 app.use(Override("_method"));
 
+passport.use(new local(User.authenticate()));
+passport.serializeUser(User.serializeUser()); //store user in session
+passport.deserializeUser(User.deserializeUser()); //get user from out of session
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -62,9 +69,17 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
+app.use(passport.initialize()); //user passort api to generate user password/account
+app.use(passport.session());
+app.get("/fakeUser", async (req, res) => {
+  const user = new User({ email: "willwang1228@gmail.com", username: "will" });
+  const newUser = await User.register(user, "password");
+  res.send(newUser);
+});
 
 app.use("/fishground", fishgrounds);
 app.use("/fishground/:id/reviews", reviews);
+app.use("/", userRoutes);
 app.get("/makefishground", async (req, res) => {
   const fisher = FishGround({
     title: "Somewhere in CA",
