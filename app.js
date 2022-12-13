@@ -5,13 +5,15 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const ejsMate = require("ejs-mate"); //ejs-mate pakcage
 const Review = require("./models/review");
+const session = require("express-session");
+const flash = require("connect-flash");
 // app.use(morgan('common'))
 // app.use((req, res, next) =>{
 //     console.log("MIDDLEWARE to handle expections")
 // })
 
 const fishgrounds = require("./routes/fishground");
-
+const reviews = require("./routes/reviews");
 const FishGround = require("./models/FishGround");
 const Override = require("method-override"); //Overide-let moogse to delete and update
 mongoose
@@ -38,11 +40,30 @@ app.set("view engine", "ejs"); //set dynamic html scripts
 app.set("views", path.join(__dirname, "views")); // make view
 app.use(express.urlencoded({ extended: true }));
 app.use(Override("_method"));
-app.use("/fishground", fishgrounds);
+
 app.get("/", (req, res) => {
   res.render("home");
 });
 
+const sessionConfig = {
+  key: "mysite.sid.uid.whatever",
+  resave: false,
+  saveUninitialzied: true,
+  secret: "mysecret",
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+app.use(session(sessionConfig));
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  next();
+});
+
+app.use("/fishground", fishgrounds);
+app.use("/fishground/:id/reviews", reviews);
 app.get("/makefishground", async (req, res) => {
   const fisher = FishGround({
     title: "Somewhere in CA",
@@ -52,26 +73,6 @@ app.get("/makefishground", async (req, res) => {
   res.send(fisher);
 });
 
-app.delete("/fishground/:id/reviews/:reviewId", async (req, res) => {
-  //res.send("hi delete");
-  const { id, reviewId } = req.params;
-  const fishground = await FishGround.findById(req.params.id);
-  await FishGround.findByIdAndUpdate(id, {
-    $pull: { reviews: reviewId },
-  }); //Pull From fishground and get array inside.
-  await Review.findByIdAndDelete(req.params.reviewId);
-  res.redirect(`/fishground/${fishground._id}`);
-});
-
-app.post("/fishground/:id/reviews", async (req, res) => {
-  const fishground = await FishGround.findById(req.params.id);
-  const review = new Review(req.body.review);
-  fishground.reviews.push(review);
-  await review.save();
-  await fishground.save();
-  res.redirect(`/fishground/${fishground._id}`);
-  //res.send("hi");
-});
 // app.get('*', (req, res)=>{
 //     res.send('Not Finished yet.') //retun html file of home
 

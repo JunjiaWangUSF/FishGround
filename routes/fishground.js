@@ -15,9 +15,11 @@ router.get("/new", (req, res) => {
 
 router.post("/", async (req, res) => {
   //res.send(req.body)
+
   const fishground = new FishGround(req.body.fishground);
   //confirm.log(fishground)
   await fishground.save();
+  req.flash("success", "Successfully added new places");
   res.redirect(`/fishground/${fishground._id}`);
 });
 
