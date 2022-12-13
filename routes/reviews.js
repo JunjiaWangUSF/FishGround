@@ -20,6 +20,7 @@ router.post("/", async (req, res) => {
   fishground.reviews.push(review);
   await review.save();
   await fishground.save();
+  req.flash("success", "New comments Added");
   res.redirect(`/fishground/${fishground._id}`);
   //res.send("hi");
 });

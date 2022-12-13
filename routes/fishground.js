@@ -28,6 +28,10 @@ router.get("/:id", async (req, res) => {
   const fishground = await FishGround.findById(req.params.id).populate(
     "reviews"
   );
+  if (!fishground) {
+    req.flash("error", "Cannot find that post");
+    return res.redirect("/fishground");
+  }
   console.log(fishground);
   res.render("fishgrounds/show", { fishground });
 });
@@ -44,6 +48,7 @@ router.put("/:id", async (req, res) => {
   const fishground = await FishGround.findByIdAndUpdate(id, {
     ...req.body.fishground,
   });
+
   res.redirect(`/fishground/${fishground._id}`);
 });
 
