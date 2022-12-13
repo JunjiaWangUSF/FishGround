@@ -105,7 +105,14 @@ app.delete("/fishground/:id", async (req, res) => {
 });
 
 app.delete("/fishground/:id/reviews/:reviewId", async (req, res) => {
-  res.send("hi delete");
+  //res.send("hi delete");
+  const { id, reviewId } = req.params;
+  const fishground = await FishGround.findById(req.params.id);
+  await FishGround.findByIdAndUpdate(id, {
+    $pull: { reviews: reviewId },
+  }); //Pull From fishground and get array inside.
+  await Review.findByIdAndDelete(req.params.reviewId);
+  res.redirect(`/fishground/${fishground._id}`);
 });
 
 app.post("/fishground/:id/reviews", async (req, res) => {
