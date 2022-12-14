@@ -3,6 +3,11 @@ const router = express.Router();
 const FishGround = require("../models/FishGround");
 const Review = require("../models/review");
 const { isLoggedIn } = require("../middleware");
+//Refrence from https://github.com/mapbox/mapbox-sdk-js/blob/main/docs/services.md#examples-41
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken =
+  "pk.eyJ1Ijoid2lsbGFvYW8iLCJhIjoiY2xibmw3YTFxMDZ5cjNybXFqMzIxazdpeCJ9.6lsyf_hF2uuBROPsvidn4w";
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 router.get("/", async (req, res) => {
   const titleOfIndex = await FishGround.find({});
@@ -16,13 +21,16 @@ router.get("/new", isLoggedIn, (req, res) => {
 
 router.post("/", isLoggedIn, async (req, res) => {
   //res.send(req.body)
-
-  const fishground = new FishGround(req.body.fishground);
-  //confirm.log(fishground)
-  fishground.author = req.user._id;
-  await fishground.save();
-  req.flash("success", "Successfully added new places");
-  res.redirect(`/fishground/${fishground._id}`);
+  const data = await geocoder
+    .forwardGeocode({ query: "Yosemite, CA", limit: 1 })
+    .send();
+  console.log(data.body.features[0].geometry.coordinates);
+  // const fishground = new FishGround(req.body.fishground);
+  // //confirm.log(fishground)
+  // fishground.author = req.user._id;
+  // await fishground.save();
+  // req.flash("success", "Successfully added new places");
+  // res.redirect(`/fishground/${fishground._id}`);
 });
 
 //First populate article author, the get an each reviews author.
