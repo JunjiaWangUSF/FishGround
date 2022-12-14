@@ -23,6 +23,7 @@ const seedDB = async () => {
     //console.log(dummyCities);
     const price = Math.floor(Math.random() * 50) + 10;
     const locationinfo = new FishGround({
+      author: "6398fe5453a4c878e15bc161",
       location: `${dummyCities[num].city}` + ", " + `${dummyCities[num].state}`,
       title: `${descriptors[getRandom(0, 10)]}`,
       image: "https://source.unsplash.com/collection/2060184",

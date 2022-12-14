@@ -28,7 +28,9 @@
           href="/fishground/<%=fishground._id  %>/edit"
           >Edit locations</a
         >
-
+        <% if(currentUser && review.author.equals(currentUser._id)) {%> <%=
+        currentUser._id %>
+        <p><%= review.author %></p>
         <form
           class="d-inline"
           action="/fishground/<%=fishground._id %>?_method=DELETE"
@@ -37,7 +39,7 @@
           <button class="card-link btn btn-primary">DELETE</button>
         </form>
       </div>
-      <% } %>
+      <% } %> <% } %>
       <div class="card-footer text-muted">
         <a href="/fishground">Back to all avaliable spots</a>
       </div>
@@ -46,6 +48,7 @@
     <footer></footer>
   </div>
   <div class="col-6">
+    <% if(currentUser) {%>
     <form
       action="/fishground/<%=fishground._id%>/reviews"
       method="POST"
@@ -75,12 +78,15 @@
         ></textarea>
       </div>
       <button class="btn btn-primary">Submit Reviews</button>
+      <% } %>
     </form>
     <% for(let review of fishground.reviews) { %>
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title">Rating: <%=review.rating %></h5>
         <p class="card-text"><%=review.body %></p>
+
+        <p class="card-text">Comments by: <%=review.author.username %></p>
         <form
           method="POST"
           action="/fishground/<%=fishground._id%>/reviews/<%=review._id%>?_method=DELETE"

@@ -13,8 +13,11 @@ router.post("/register", async (req, res) => {
     const { email, username, password } = req.body;
     const user = new User({ email, username });
     const register = await User.register(user, password);
-    req.flash("success", "Welcome to FishGround");
-    res.redirect("/fishground");
+    req.login(register, (error) => {
+      if (error) return error;
+      req.flash("success", "Welcome to FishGround");
+      res.redirect("/fishground");
+    });
   } catch (expection) {
     req.flash("error", "Username have been registered");
     return res.redirect("/register");
@@ -34,6 +37,7 @@ router.post(
   }),
   async (req, res) => {
     req.flash("success", "Welcome back");
+
     res.redirect("/fishground");
   }
 );

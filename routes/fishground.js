@@ -19,16 +19,22 @@ router.post("/", isLoggedIn, async (req, res) => {
 
   const fishground = new FishGround(req.body.fishground);
   //confirm.log(fishground)
+  fishground.author = req.user._id;
   await fishground.save();
   req.flash("success", "Successfully added new places");
   res.redirect(`/fishground/${fishground._id}`);
 });
 
-//21 22 27 33 36
+//First populate article author, the get an each reviews author.
 router.get("/:id", isLoggedIn, async (req, res) => {
-  const fishground = await FishGround.findById(req.params.id).populate(
-    "reviews"
-  );
+  const fishground = await FishGround.findById(req.params.id)
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+      },
+    })
+    .populate("author");
   if (!fishground) {
     req.flash("error", "Cannot find that post");
     return res.redirect("/fishground");

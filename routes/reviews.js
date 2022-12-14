@@ -1,9 +1,10 @@
 const express = require("express");
+const { isLoggedIn, isReviewAuthor } = require("../middleware");
 const router = express.Router({ mergeParams: true });
 const FishGround = require("../models/FishGround");
 const Review = require("../models/review");
 
-router.delete("/:reviewId", async (req, res) => {
+router.delete("/:reviewId", isLoggedIn, isReviewAuthor, async (req, res) => {
   //res.send("hi delete");
   const { id, reviewId } = req.params;
   const fishground = await FishGround.findById(req.params.id);
@@ -17,6 +18,7 @@ router.delete("/:reviewId", async (req, res) => {
 router.post("/", async (req, res) => {
   const fishground = await FishGround.findById(req.params.id);
   const review = new Review(req.body.review);
+  review.author = req.user._id;
   fishground.reviews.push(review);
   await review.save();
   await fishground.save();
