@@ -22,7 +22,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.post("/", isLoggedIn, async (req, res) => {
   //res.send(req.body)
   const data = await geocoder
-    .forwardGeocode({ query: "Yosemite, CA", limit: 1 })
+    .forwardGeocode({ query: req.body.fishground.location, limit: 1 })
     .send();
   console.log(data.body.features[0].geometry.coordinates);
   // const fishground = new FishGround(req.body.fishground);

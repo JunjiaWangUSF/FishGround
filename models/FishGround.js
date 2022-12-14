@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const FishGroundSchema = new Schema({
   title: String,
   image: String,
-  //price: Number,
+
   description: String,
   location: String,
   author: {
@@ -16,6 +16,18 @@ const FishGroundSchema = new Schema({
       ref: "Review",
     },
   ],
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
 });
 
+//https://mongoosejs.com/docs/geojson.html
 module.exports = mongoose.model("FishGround", FishGroundSchema);
