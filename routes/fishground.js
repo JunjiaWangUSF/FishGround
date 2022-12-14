@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const FishGround = require("../models/FishGround");
 const Review = require("../models/review");
+const { isLoggedIn } = require("../middleware");
 
 router.get("/", async (req, res) => {
   const titleOfIndex = await FishGround.find({});
@@ -9,7 +10,7 @@ router.get("/", async (req, res) => {
   res.render("fishgrounds/index", { titleOfIndex });
 });
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("fishgrounds/new");
 });
 
@@ -24,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 //21 22 27 33 36
-router.get("/:id", async (req, res) => {
+router.get("/:id", isLoggedIn, async (req, res) => {
   const fishground = await FishGround.findById(req.params.id).populate(
     "reviews"
   );
