@@ -64,17 +64,22 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 app.use(flash());
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
+
+//middleware pass indictor of action success or not. All store in the esssion.
+
 app.use(passport.initialize()); //user passort api to generate user password/account
 app.use(passport.session());
 app.get("/fakeUser", async (req, res) => {
   const user = new User({ email: "willwang1228@gmail.com", username: "will" });
   const newUser = await User.register(user, "password");
   res.send(newUser);
+});
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
 });
 
 app.use("/fishground", fishgrounds);

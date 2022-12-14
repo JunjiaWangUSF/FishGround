@@ -30,11 +30,20 @@ router.post(
   "/login",
   passport.authenticate("local", {
     failureFlash: true,
-    failureRedirect: "login",
+    failureRedirect: "/login",
   }),
   async (req, res) => {
     req.flash("success", "Welcome back");
     res.redirect("/fishground");
   }
 );
+
+router.get("/logout", (req, res) => {
+  req.logout(req.user, (err) => {
+    if (err) return next(err);
+    req.flash("success", "See you next time");
+    res.redirect("/fishground");
+  });
+});
+
 module.exports = router;

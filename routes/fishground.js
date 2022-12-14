@@ -14,7 +14,7 @@ router.get("/new", isLoggedIn, (req, res) => {
   res.render("fishgrounds/new");
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isLoggedIn, async (req, res) => {
   //res.send(req.body)
 
   const fishground = new FishGround(req.body.fishground);
@@ -37,12 +37,12 @@ router.get("/:id", isLoggedIn, async (req, res) => {
   res.render("fishgrounds/show", { fishground });
 });
 
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", isLoggedIn, async (req, res) => {
   const fishground = await FishGround.findById(req.params.id);
   res.render("fishgrounds/edit", { fishground });
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isLoggedIn, async (req, res) => {
   //post request
   //res.send("It works fine")
   const { id } = req.params;
@@ -53,7 +53,7 @@ router.put("/:id", async (req, res) => {
   res.redirect(`/fishground/${fishground._id}`);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isLoggedIn, async (req, res) => {
   //post request
   //res.send("It works fine")
   const { id } = req.params;
