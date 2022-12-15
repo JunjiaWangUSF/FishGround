@@ -4,6 +4,7 @@ const router = express.Router({ mergeParams: true });
 const FishGround = require("../models/FishGround");
 const Review = require("../models/review");
 
+//Delete reviews
 router.delete("/:reviewId", isLoggedIn, isReviewAuthor, async (req, res) => {
   //res.send("hi delete");
   const { id, reviewId } = req.params;
@@ -15,6 +16,7 @@ router.delete("/:reviewId", isLoggedIn, isReviewAuthor, async (req, res) => {
   res.redirect(`/fishground/${fishground._id}`);
 });
 
+//Add new Comments to article.
 router.post("/", async (req, res) => {
   const fishground = await FishGround.findById(req.params.id);
   const review = new Review(req.body.review);

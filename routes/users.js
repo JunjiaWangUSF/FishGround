@@ -24,11 +24,13 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//login page
 router.get("/login", (req, res) => {
   //res.send("hi");
   res.render("users/login");
 });
 
+//validate user password and account info.
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -42,6 +44,7 @@ router.post(
   }
 );
 
+//logout user.
 router.get("/logout", (req, res) => {
   req.logout(req.user, (err) => {
     if (err) return next(err);
