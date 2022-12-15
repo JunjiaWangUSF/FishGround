@@ -24,13 +24,15 @@ router.post("/", isLoggedIn, async (req, res) => {
   const data = await geocoder
     .forwardGeocode({ query: req.body.fishground.location, limit: 1 })
     .send();
-  console.log(data.body.features[0].geometry.coordinates);
-  // const fishground = new FishGround(req.body.fishground);
-  // //confirm.log(fishground)
-  // fishground.author = req.user._id;
-  // await fishground.save();
-  // req.flash("success", "Successfully added new places");
-  // res.redirect(`/fishground/${fishground._id}`);
+  //console.log(data.body.features[0].geometry.coordinates);
+  const fishground = new FishGround(req.body.fishground);
+  //confirm.log(fishground)
+  fishground.geometry = data.body.features[0].geometry;
+  fishground.author = req.user._id;
+  console.log(fishground.geometry);
+  await fishground.save();
+  req.flash("success", "Successfully added new places");
+  res.redirect(`/fishground/${fishground._id}`);
 });
 
 //First populate article author, the get an each reviews author.

@@ -81,6 +81,13 @@
       <button class="btn btn-primary">Submit Reviews</button>
       <% } %>
     </form>
+
+    <input
+      type="hidden"
+      id="GeoCode"
+      value="<%=fishground.geometry.coordinates  %>"
+    />
+    <p><%=fishground.geometry.coordinates %></p>
     <% for(let review of fishground.reviews) { %>
     <div class="card mb-3">
       <div class="card-body">
@@ -105,14 +112,17 @@
 </div>
 
 <script>
+  const fishground = <%- JSON.stringify(fishground)%>; //pass parsed geocode and convert to String.
   mapboxgl.accessToken =
     "pk.eyJ1Ijoid2lsbGFvYW8iLCJhIjoiY2xibmw3YTFxMDZ5cjNybXFqMzIxazdpeCJ9.6lsyf_hF2uuBROPsvidn4w";
   const map = new mapboxgl.Map({
     container: "map", // container ID
     style: "mapbox://styles/mapbox/streets-v12", // style URL
-    center: [-74.5, 40], // starting position [lng, lat]
-    zoom: 9, // starting zoom
+    center: fishground.geometry.coordinates, // starting position [lng, lat]
+    zoom: 8, // starting zoom
   });
-  new mapboxgl.Marker().setLngLat([]);
+  const marker1 = new mapboxgl.Marker()
+    .setLngLat(fishground.geometry.coordinates)
+    .addTo(map);
 </script>
 <footer></footer>
