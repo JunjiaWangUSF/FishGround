@@ -45,6 +45,9 @@
 
     <footer></footer>
   </div>
+
+  <div id="map" style="width: 400px; height: 300px"></div>
+
   <div class="col-6">
     <% if(currentUser) {%>
     <form
@@ -101,4 +104,15 @@
   </div>
 </div>
 
+<script>
+  mapboxgl.accessToken =
+    "pk.eyJ1Ijoid2lsbGFvYW8iLCJhIjoiY2xibmw3YTFxMDZ5cjNybXFqMzIxazdpeCJ9.6lsyf_hF2uuBROPsvidn4w";
+  const map = new mapboxgl.Map({
+    container: "map", // container ID
+    style: "mapbox://styles/mapbox/streets-v12", // style URL
+    center: [-74.5, 40], // starting position [lng, lat]
+    zoom: 9, // starting zoom
+  });
+  new mapboxgl.Marker().setLngLat([]);
+</script>
 <footer></footer>
