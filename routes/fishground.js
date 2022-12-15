@@ -29,7 +29,7 @@ router.post("/", isLoggedIn, async (req, res) => {
   //confirm.log(fishground)
   fishground.geometry = data.body.features[0].geometry;
   fishground.author = req.user._id;
-  console.log(fishground.geometry);
+  //console.log(fishground.geometry);
   await fishground.save();
   req.flash("success", "Successfully added new places");
   res.redirect(`/fishground/${fishground._id}`);
@@ -55,6 +55,7 @@ router.get("/:id", isLoggedIn, async (req, res) => {
 
 router.get("/:id/edit", isLoggedIn, async (req, res) => {
   const fishground = await FishGround.findById(req.params.id);
+
   res.render("fishgrounds/edit", { fishground });
 });
 
@@ -62,9 +63,22 @@ router.put("/:id", isLoggedIn, async (req, res) => {
   //post request
   //res.send("It works fine")
   const { id } = req.params;
+
+  //const { location } = document.getElementById("location").value;
   const fishground = await FishGround.findByIdAndUpdate(id, {
     ...req.body.fishground,
   });
+
+  const data = await geocoder
+    .forwardGeocode({ query: fishground.location, limit: 1 })
+    .send();
+  //console.log(data.body.features[0].geometry.coordinates);
+
+  //confirm.log(fishground)
+  fishground.geometry = data.body.features[0].geometry;
+
+  console.log(fishground.geometry);
+  await fishground.save();
 
   res.redirect(`/fishground/${fishground._id}`);
 });

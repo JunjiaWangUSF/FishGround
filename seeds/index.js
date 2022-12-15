@@ -25,6 +25,10 @@ const seedDB = async () => {
     const locationinfo = new FishGround({
       author: "6398fe5453a4c878e15bc161",
       location: `${dummyCities[num].city}` + ", " + `${dummyCities[num].state}`,
+      geometry: {
+        type: "Point",
+        coordinates: [dummyCities[num].longitude, dummyCities[num].latitude],
+      },
       title: `${descriptors[getRandom(0, 10)]}`,
       image: "https://source.unsplash.com/collection/2060184",
       description:
